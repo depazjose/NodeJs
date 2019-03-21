@@ -34,53 +34,68 @@ let getEmpleado = (id, callback) => {
 };
 
 let getSalario = (empleado, callback) => {
-    let nombreBd = getEmpleado(empleado, function() {});
-    /*
-    => {
+    let salarioDb = salarios.find(salario => salario.id === empleado.id);
 
-        if (err) {
-            return console.log(err);
-        }
-        console.log(resp);
-        return {
-            id: resp.id,
-            nombre: resp.nombre
-        };
-    });
-    */
-
-
-    console.log(` resp = ${nombreBd}`);
-    /*
-    if (nombreBd) {
-        console.log(nombreBd);
-        let salarioDb = salarios.find(salario => salario.id === empleado.id);
-
-        console.log(salarioDb);
-
-        if (!salarioDb) {
-            callback(`No se encontró un salario para el usuario ${nombreBd}`);
-        } else {
-            //console.log(salarioDb.salario);
-            callback(null, salarioDb.salario);
-        }
-
-
+    if (!salarioDb) {
+        callback(`No se encontró un salario para el usuario ${empleado.nombre}`);
     } else {
-        console.log("err");
-        callback(null, nombreBd);
+
+        // callback(null, salarioDb.salario);
+        callback(null, {
+            nombre: empleado.nombre,
+            salario: salarioDb.salario,
+            id: empleado.id
+        });
     }
-    */
 };
 
+//let nombreBd = getEmpleado(empleado, function() {});
+/*
+=> {
 
+    if (err) {
+        return console.log(err);
+    }
+    console.log(resp);
+    return {
+        id: resp.id,
+        nombre: resp.nombre
+    };
+});
+*/
+
+
+//console.log(` resp = ${nombreBd}`);
+/*
+if (nombreBd) {
+    console.log(nombreBd);
+    let salarioDb = salarios.find(salario => salario.id === empleado.id);
+
+    console.log(salarioDb);
+
+    if (!salarioDb) {
+        callback(`No se encontró un salario para el usuario ${nombreBd}`);
+    } else {
+        //console.log(salarioDb.salario);
+        callback(null, salarioDb.salario);
+    }
+
+
+} else {
+    console.log("err");
+    callback(null, nombreBd);
+}
+*/
+
+
+/*
 let ex = (id) => {
     let aja = () => ({
         getEmpleado(1, (err, empleado) => {
             if (err) {
                 return console.log(err);
             }
-            //console.log(empleado);
+           
             return empleado;
         });
     });
@@ -95,6 +110,32 @@ console.log(ex(1));
 
 /*
 getSalario(32, (err, resp) => {
+    if (err) {
+        return console.log(err);
+    }
+    console.log(resp);
+
+});
+*/
+
+getEmpleado(2, (err, empleado) => {
+    if (err) {
+        return console.log(err);
+    }
+    //console.log(empleado);
+
+    getSalario(empleado, (err, resp) => {
+        if (err) {
+            return console.log(err);
+        }
+        console.log(`El salario de ${resp.nombre} es de $ ${resp.salario}`);
+
+    });
+});
+
+
+/*
+getSalario(1, (err, resp) => {
     if (err) {
         return console.log(err);
     }
