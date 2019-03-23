@@ -42,25 +42,46 @@ let getEmpleado = (id) => {
     });
 };
 
-let getSalario = (empleado, callback) => {
-    let salarioDb = salarios.find(salario => salario.id === empleado.id);
+let getSalario = (empleado) => {
+    return new Promise((resolve, reject) => {
 
-    if (!salarioDb) {
-        callback(`No se encontró un salario para el usuario ${empleado.nombre}`);
-    } else {
+        let salarioDb = salarios.find(salario => salario.id === empleado.id);
 
-        // callback(null, salarioDb.salario);
-        callback(null, {
-            nombre: empleado.nombre,
-            salario: salarioDb.salario,
-            id: empleado.id
-        });
-    }
+        if (!salarioDb) {
+            reject(`No se encontró un salario para el usuario ${empleado.nombre}`);
+        } else {
+            resolve({
+                nombre: empleado.nombre,
+                salario: salarioDb.salario,
+                id: empleado.id
+            });
+        }
+    });
 };
 
-getEmpleado(1).then(empleado => {
+/*
+getEmpleado(3).then(empleado => {
     // console.log(`Empleado de base de datos ${empleado.nombre}`);
-    console.log('Empleado de BD: ', empleado);
+    //console.log('Empleado de BD: ', empleado);
+    getSalario(empleado).then(resp => {
+        console.log(`El salario de ${resp.nombre} es de $${resp.salario}`);
+    }, (err) => {
+        console.log(err);
+    });
+
 }, (err) => {
     console.log(err);
-})
+});
+*/
+
+/// Encadenar PROMESAS
+getEmpleado(1).then(empleado => {
+        return getSalario(empleado);
+
+    })
+    .then(resp => {
+        console.log(`El salario de ${resp.nombre} es de $${resp.salario}`);
+    })
+    .catch(err => {
+        console.log(err);
+    });
