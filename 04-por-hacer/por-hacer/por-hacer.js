@@ -38,6 +38,40 @@ const actualizar = (descripcion, completado = true) => {
 
 }
 
+const borrar = (descripcion) => {
+    cargarDb();
+    let index = listadoPorHacer.findIndex(tarea => {
+        return tarea.descripcion === descripcion;
+    });
+
+    if (index >= 0) {
+        listadoPorHacer.splice(index, 1);
+        guardarDb();
+        return true;
+    } else {
+        return false;
+    }
+
+
+    /* let filtro = listadoPorHacer.filter(tarea => {
+        return tarea.descripcion !== descripcion;
+    });
+
+    if (listadoPorHacer.length === filtro.length) {
+        return false;
+    } else {
+        listadoPorHacer = filtro;
+        guardarDb();
+        return true;
+    } */
+
+
+
+
+}
+
+
+
 const crear = (descripcion) => {
 
     cargarDb();
@@ -54,5 +88,6 @@ const crear = (descripcion) => {
 module.exports = {
     crear,
     getListado,
-    actualizar
+    actualizar,
+    borrar
 }
